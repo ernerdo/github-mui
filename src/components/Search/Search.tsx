@@ -1,5 +1,12 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import {
+  Alert,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  AlertTitle,
+} from '@mui/material'
 import { useContext, useState } from 'react'
 import { getUserByName } from '../../client/GitHubApiClient'
 import { GitHubUserContext } from '../../context/GitHubUserContext'
@@ -7,6 +14,7 @@ import { GithubContextInterface } from '../../interface/GitHubProfile'
 
 export const Search = () => {
   const [valueSearchInput, setValueSearchInput] = useState<string>('')
+  const [open, setOpen] = useState<boolean>(false)
   const { setUser } = useContext(GitHubUserContext) as GithubContextInterface
   const handleInputSearch = (value: string) => {
     setValueSearchInput(value)
@@ -15,16 +23,21 @@ export const Search = () => {
     if (valueSearchInput === '') return
     try {
       getUserByName(valueSearchInput).then((user) => {
-        if (!user) return
+        if (!user) {
+          return setOpen(true)
+        }
         setUser(user)
       })
     } catch (error) {
       console.log(error)
     }
   }
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
-    <Stack direction="row" justifyContent="center">
+    <Stack direction="row" justifyContent="center" flexWrap={`wrap`}>
       <TextField
         id="outlined-basic"
         label="GitHub User"
@@ -45,6 +58,16 @@ export const Search = () => {
           ),
         }}
       />
+      {open && (
+        <Alert
+          severity="warning"
+          sx={{ width: '50%', marginTop: '10px' }}
+          onClose={handleClose}
+        >
+          <AlertTitle>Warning</AlertTitle>
+          User name {valueSearchInput} not found.
+        </Alert>
+      )}
     </Stack>
   )
 }

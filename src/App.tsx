@@ -27,7 +27,6 @@ function App() {
       sx={{
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
       }}
     >
       <Container
