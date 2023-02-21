@@ -1,13 +1,26 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { IconButton, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import { useContext, useState } from 'react'
+import { getUserByName } from '../../client/GitHubApiClient'
+import { GitHubUserContext } from '../../context/GitHubUserContext'
+import { GithubContextInterface } from '../../interface/GitHubProfile'
 
 export const Search = () => {
   const [valueSearchInput, setValueSearchInput] = useState<string>('')
+  const { setUser } = useContext(GitHubUserContext) as GithubContextInterface
   const handleInputSearch = (value: string) => {
-    if (value.length === 0) return
     setValueSearchInput(value)
-    console.log(valueSearchInput)
+  }
+  const handleSearch = () => {
+    if (valueSearchInput === '') return
+    try {
+      getUserByName(valueSearchInput).then((user) => {
+        if (!user) return
+        setUser(user)
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -22,17 +35,16 @@ export const Search = () => {
         }}
         required
         onChange={(e) => handleInputSearch(e.target.value)}
-      />
-
-      <IconButton
-        size="small"
-        sx={{
-          left: '-45px',
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton size="small" onClick={() => handleSearch()}>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
         }}
-        onClick={() => console.log('Search icon')}
-      >
-        <SearchIcon />
-      </IconButton>
+      />
     </Stack>
   )
 }

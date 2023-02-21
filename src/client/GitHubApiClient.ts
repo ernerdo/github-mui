@@ -9,6 +9,6 @@ export const getUserByName = async (name: string) => {
     const response = await baseApiClient.get(`/users/${name}`)
     return response.data
   } catch (error) {
-    console.log(error)
+    console.log(error, 'error')
   }
 }

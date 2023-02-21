@@ -10,10 +10,16 @@ import { GithubContextInterface } from './interface/GitHubProfile'
 function App() {
   const { setUser } = useContext(GitHubUserContext) as GithubContextInterface
   useEffect(() => {
-    getUserByName('ernerdo').then((user) => {
-      console.log(user)
-      setUser(user)
-    })
+    try {
+      getUserByName('ernerdo').then((user) => {
+        if (!user) {
+          return
+        }
+        setUser(user)
+      })
+    } catch (error) {
+      console.log(error, 'hello')
+    }
   }, [])
 
   return (
