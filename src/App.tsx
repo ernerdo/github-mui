@@ -1,28 +1,50 @@
-import { Container } from '@mui/material'
-import Button from '@mui/material/Button'
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { Container, Stack } from '@mui/material'
+import { useContext, useEffect } from 'react'
+
+import { getUserByName } from './client/GitHubApiClient'
+import { Profile } from './components'
+import { Search } from './components/Search'
+import { GitHubUserContext } from './context/GitHubUserContext'
+import { GithubContextInterface } from './interface/GitHubProfile'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { setUser } = useContext(GitHubUserContext) as GithubContextInterface
+  useEffect(() => {
+    try {
+      getUserByName('ernerdo').then((user) => {
+        if (!user) {
+          return
+        }
+        setUser(user)
+      })
+    } catch (error) {
+      console.log(error, 'hello')
+    }
+  }, [])
 
   return (
-    <Container maxWidth="sm">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Button variant="contained">Hello World</Button>
-    </Container>
+    <Stack
+      sx={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <Container
+        maxWidth="lg"
+        sx={{
+          backgroundColor: 'lightblue',
+          borderRadius: '10px',
+          padding: '10px',
+          alignItems: 'center',
+        }}
+      >
+        <Stack direction={`column`} gap={`15px`}>
+          <Search />
+          <Profile />
+        </Stack>
+      </Container>
+    </Stack>
   )
 }
 
