@@ -10,7 +10,12 @@ export const Profile = () => {
   const { user } = useContext(GitHubUserContext) as GithubContextInterface
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: '15px' }}>
+    <Grid
+      container
+      spacing={2}
+      sx={{ marginTop: '15px', flexDirection: { xs: `column`, sm: `row` } }}
+      alignItems={'center'}
+    >
       <UserImage user={user} />
       <UserInformation user={user} />
     </Grid>

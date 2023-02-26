@@ -1,4 +1,4 @@
-import { Grid, CardMedia } from '@mui/material'
+import { Grid, CardMedia, Skeleton } from '@mui/material'
 import { FC } from 'react'
 import { GitHubProfile } from '../../interface/GitHubProfile'
 
@@ -8,7 +8,7 @@ interface UserImageProps {
 export const UserImage: FC<UserImageProps> = ({ user }) => {
   return (
     <Grid item xs={3}>
-      {user && (
+      {user ? (
         <CardMedia
           component={'img'}
           src={user.avatar_url}
@@ -16,8 +16,12 @@ export const UserImage: FC<UserImageProps> = ({ user }) => {
           sx={{
             borderRadius: '50%',
             marginLeft: '5px',
+            maxWidth: '300px',
           }}
+          loading={'lazy'}
         />
+      ) : (
+        <Skeleton variant={'circular'} width={300} height={300} />
       )}
     </Grid>
   )

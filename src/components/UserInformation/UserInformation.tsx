@@ -31,23 +31,53 @@ export const UserInformation: FC<UserImageProps> = ({ user }) => {
         <Typography variant={`body1`}>{user.bio}</Typography>
         <Paper elevation={3}>
           <Stack
-            direction={'row'}
             justifyContent={`space-evenly`}
             sx={{
               margin: '20px',
+              flexDirection: { xs: `column`, sm: `row` },
             }}
           >
-            <Stack>
-              <Typography variant={`h5`}>Repositories</Typography>
-              <Typography variant={`h6`}>Repos: {user.public_repos}</Typography>
-            </Stack>
-            <Box>
-              <Typography variant={`h5`}>Follower</Typography>
-              <Typography variant={`h6`}>Repos: {user.followers}</Typography>
+            <Box padding={`10px`}>
+              <Typography
+                variant={`h5`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                Repositories
+              </Typography>
+              <Typography
+                variant={`h6`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                {user.public_repos}
+              </Typography>
             </Box>
-            <Box>
-              <Typography variant={`h5`}>Following</Typography>
-              <Typography variant={`h6`}>Repos: {user.following}</Typography>
+            <Box padding={`10px`}>
+              <Typography
+                variant={`h5`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                Follower
+              </Typography>
+              <Typography
+                variant={`h6`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                {user.followers}
+              </Typography>
+            </Box>
+            <Box padding={`10px`}>
+              <Typography
+                variant={`h5`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                Following
+              </Typography>
+              <Typography
+                variant={`h6`}
+                fontSize={{ xs: `1.2rem`, sm: `1.5rem` }}
+              >
+                {user.following}
+              </Typography>
             </Box>
           </Stack>
         </Paper>
