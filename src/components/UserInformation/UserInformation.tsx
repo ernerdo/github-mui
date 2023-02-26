@@ -17,8 +17,16 @@ export const UserInformation: FC<UserImageProps> = ({ user }) => {
   return (
     <Grid item xs={9}>
       <Stack direction={'column'}>
-        <Stack justifyContent={`space-between`} direction={`row`}>
-          <Typography variant="h4">{user.name}</Typography>
+        <Stack
+          justifyContent={`space-between`}
+          sx={{
+            flexDirection: { xs: `column`, sm: `row` },
+          }}
+          alignItems={`center`}
+        >
+          <Typography variant="h4" fontSize={{ xs: `1.2rem`, sm: `1.8rem` }}>
+            {user.name}
+          </Typography>
           <Typography variant="subtitle2">
             {date.toLocaleString('en-US', {
               year: 'numeric',
@@ -81,7 +89,12 @@ export const UserInformation: FC<UserImageProps> = ({ user }) => {
             </Box>
           </Stack>
         </Paper>
-        <Grid container spacing={2} sx={{ marginTop: '15px' }}>
+        <Grid
+          container
+          spacing={2}
+          alignItems={`stretch`}
+          sx={{ marginTop: '15px', flexDirection: { xs: `column`, sm: `row` } }}
+        >
           <Grid item xs={6}>
             <Stack direction="row" spacing={2}>
               <LocationOnIcon sx={{ color: 'red' }} />
