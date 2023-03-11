@@ -16,6 +16,7 @@ export const Search = () => {
   const [valueSearchInput, setValueSearchInput] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
   const { setUser } = useContext(GitHubUserContext) as GithubContextInterface
+  const [message, setMessage] = useState<string>('')
   const handleInputSearch = (value: string) => {
     setValueSearchInput(value)
   }
@@ -24,8 +25,11 @@ export const Search = () => {
     try {
       getUserByName(valueSearchInput).then((user) => {
         if (!user) {
-          return setOpen(true)
+          setMessage(`User name ${valueSearchInput} not found`)
+          setOpen(true)
+          return
         }
+        setOpen(false)
         setUser(user)
       })
     } catch (error) {
@@ -48,6 +52,11 @@ export const Search = () => {
         }}
         required
         onChange={(e) => handleInputSearch(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch()
+          }
+        }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -65,7 +74,7 @@ export const Search = () => {
           onClose={handleClose}
         >
           <AlertTitle>Warning</AlertTitle>
-          User name {valueSearchInput} not found.
+          {message}
         </Alert>
       )}
     </Stack>
