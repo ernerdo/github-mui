@@ -10,9 +10,17 @@ import { GitHubProfile } from '../../interface/GitHubProfile'
 interface UserImageProps {
   user: GitHubProfile
 }
+const addHttpPrefix = (url: string) => {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url
+  }
+  return `https://${url}`
+}
 
 export const UserInformation: FC<UserImageProps> = ({ user }) => {
   const date = new Date(user?.created_at)
+  const webSite = addHttpPrefix(user?.blog)
   if (!user) return <></>
   return (
     <Grid item xs={9}>
@@ -120,7 +128,7 @@ export const UserInformation: FC<UserImageProps> = ({ user }) => {
             <Stack direction="row" spacing={2}>
               <LanguageIcon color="primary" />
               {user.blog !== null ? (
-                <Link href={user.blog} target="_blank">
+                <Link href={webSite} target="_blank">
                   <Typography>{user.blog}</Typography>
                 </Link>
               ) : (
